@@ -15,5 +15,11 @@ export const authConfig: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async redirect({ url, baseUrl }) {
+      return baseUrl;
+    },
+  },
+
   debug: true,
 };
