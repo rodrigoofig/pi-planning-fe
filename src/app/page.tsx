@@ -1,13 +1,10 @@
-
-
-import { LoginForm } from "./login/form";
 import { cookies } from 'next/headers';
-
-
+import LoginPage from './login/page';
+import Chats from './chat/page';
 
 const getToken = async () => {
   const token = cookies().get('next-auth.session-token')
-  console.log('SIIIU', token);
+
   return token;
 };
 
@@ -17,12 +14,13 @@ export default async function Home() {
   console.log(token);
 
   if (token) {
-    return <h1>Welcome to Dashboard</h1>;
+    return  <Chats token = {token.value}/>
   }
+  
   return (
-    <>
-      <LoginForm />;
-    </>
+    <div > 
+      <LoginPage />
+    </div>
   );
   
 }
