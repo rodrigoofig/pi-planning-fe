@@ -1,26 +1,8 @@
-import { cookies } from 'next/headers';
-import LoginPage from './login/page';
-import Chats from './chat/page';
+"use client";
 
-const getToken = async () => {
-  const token = cookies().get('next-auth.session-token')
+import Home from "@/components/homepage";
+import {SessionProvider } from "next-auth/react"
 
-  return token;
-};
-
-export default async function Home() {
-
-  const token = await getToken();
-  console.log(token);
-
-  if (token) {
-    return  <Chats token = {token.value}/>
-  }
-  
-  return (
-    <div > 
-      <LoginPage />
-    </div>
-  );
-  
+export default function Page() {
+  return <SessionProvider><Home/></SessionProvider>
 }
