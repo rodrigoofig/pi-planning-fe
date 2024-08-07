@@ -1,7 +1,10 @@
 /** @format */
 
+import { checkPrimeSync } from 'crypto';
 import { NextAuthOptions } from 'next-auth';
 import AtlassianProvider from 'next-auth/providers/atlassian';
+import { Chokokutai } from 'next/font/google';
+import { cookies } from 'next/headers';
 
 export const authConfig: NextAuthOptions = {
   providers: [
@@ -15,11 +18,32 @@ export const authConfig: NextAuthOptions = {
       },
     }),
   ],
+  session: {
+    strategy: 'jwt',
+  },
   callbacks: {
     async redirect({ url, baseUrl }) {
       return baseUrl;
     },
-  },
+    async jwt(params) {
+      if (params.account) {
+        params.token.accessToken = params.account.access_token;
+        params.token.id = params.user.id;
+      }
+      const nibba = cookies().get('next-auth.session-token');
+      console.log('nibba', nibba);
 
-  debug: true,
+      cookies().set('gigachad', 'params.token.accessToken');
+      console.log('JWT', params.token.accessToken);
+      return params.token;
+    },
+    async session({ session, token }) {
+      const newSession = {
+        ...session,
+        accessToken: token.accessToken,
+      };
+
+      return newSession;
+    },
+  },
 };
