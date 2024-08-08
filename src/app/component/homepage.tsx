@@ -1,19 +1,23 @@
-"use client";
-import { useSession, signIn, signOut } from "next-auth/react"
-import { cookies } from "next/headers";
+import { authConfig } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { Button } from "./button";
 
-export default function Home() {
-  const { data: session, status } = useSession()
+export default async function Home() {
+  const session = await getServerSession(authConfig);
+
+  console.log("SESSION -> ", JSON.stringify(session));
+
+  console.log("SESSION -> ",session);
 
 
   if (session?.user) {
     return (
       <>
         Signed in as {session.user.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
+       
         <div>
-          <Link href='/chat'>solteiras a 5 km de ti</Link>
+          <Link href='/chat'>xats</Link>
         </div>
       </>
     )
@@ -21,7 +25,7 @@ export default function Home() {
   return (
     <>
       Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
+      <Button/>
     </>
   )
 }

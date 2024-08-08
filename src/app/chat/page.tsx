@@ -1,35 +1,14 @@
-"use client";
+import { authConfig } from '@/lib/auth';
+import { useQuery } from '@tanstack/react-query';
+import { getServerSession } from 'next-auth';
+import ChatsComponent from '../component/chats';
 
-
-import { useEffect, useState } from 'react';
-
-export default function Chats() {
-  const [chats, setChats] = useState(null);
-
-  useEffect(() => {
-    const fetchChats = async () => {
-      console.log('fetching chats');
-      try {
-        const response = await fetch(`http://localhost:8000/chat-ai/chats`);
-        console.log('response', response);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setChats(data);
-      } catch (error) {
-        console.error('Failed to fetch chats:', error);
-      }
-    };
-
-    fetchChats();
-    console.log('CHATS', chats);
-  }, [chats]); 
+export default async function Chats () {
+  const session = await getServerSession(authConfig);
 
   return (
-    <main>
-      <h1>Chats:</h1>
-      {/* Render chats here */}
-    </main>
-  );
+    <div>
+      <ChatsComponent session={session}></ChatsComponent>
+    </div>
+  )
 }
