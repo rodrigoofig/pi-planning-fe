@@ -1,7 +1,7 @@
 "use client"
 
 import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./api/auth/[...nextauth]/queryClient";
+import { queryClient } from "./api/queryClient";
 
 export function Providers({ children }) {
   return (

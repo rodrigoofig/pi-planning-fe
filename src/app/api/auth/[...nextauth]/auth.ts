@@ -1,5 +1,6 @@
 /** @format */
 
+import refreshAccessToken from '@/app/api/auth/[...nextauth]/refreshToken';
 import { NextAuthOptions } from 'next-auth';
 import AtlassianProvider from 'next-auth/providers/atlassian';
 
@@ -20,25 +21,33 @@ export const authConfig: NextAuthOptions = {
   },
   callbacks: {
     async redirect({ url, baseUrl }) {
-      if (url.startsWith(baseUrl)) {
-        return baseUrl + '/chat';
-      }
       return baseUrl;
     },
     async jwt(params) {
       if (params.account) {
-        params.token.accessToken = params.account.access_token;
         params.token.id = params.user.id;
+        params.token.accessToken = params.account.access_token;
+        params.token.refreshToken = params.account.refresh_token;
+        params.token.accessTokenExpires = params.account.expires_at * 1000;
       }
 
-      return params.token;
+      const currentDate = Date.now();
+      // Return previous token if the access token has not expired yet
+      if (currentDate < params.token.accessTokenExpires) {
+        return params.token;
+      }
+
+      const data = await refreshAccessToken(params.token);
+
+      return data;
     },
     async session({ session, token }) {
-      console.log();
       const newSession = {
         ...session,
         accessToken: token.accessToken,
       };
+
+      console.log("Session Token -> ", newSession.accessToken)
 
       return newSession;
     },
