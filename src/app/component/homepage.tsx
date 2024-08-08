@@ -2,6 +2,7 @@ import { authConfig } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { Button } from "./button";
+import SignIn from "./signin";
 
 export default async function Home() {
   const session = await getServerSession(authConfig);
@@ -19,13 +20,16 @@ export default async function Home() {
         <div>
           <Link href='/chat'>xats</Link>
         </div>
+
+        <a href=""></a>
       </>
     )
   }
   return (
     <>
-      Not signed in <br />
-      <Button/>
+      <SignIn/>
+      {/* Not signed in <br />
+      <Button/> */}
     </>
   )
 }
