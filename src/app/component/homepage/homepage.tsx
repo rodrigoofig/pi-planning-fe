@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import SignIn from './signIn';
 import { getServerSession } from 'next-auth';
-import { authConfig } from '@/app/api/auth/[...nextauth]/auth';
+import { authConfig } from '@/app/lib/auth';
 import Home from './home';
 
 export default async function HomePage() {
@@ -10,12 +10,12 @@ export default async function HomePage() {
   if (session?.user) {
     return (
       <>
-      <Home/>
-        {/* Signed in as {session.user.email} <br />
+        <Home />
+        Signed in as {session.user.email} <br />
         <div>
           <Link href='/chat'>xats</Link>
         </div>
-        <a href=''></a> */}
+        <a href=''></a>
       </>
     );
   }

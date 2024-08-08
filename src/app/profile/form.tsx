@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth';
-import { authConfig } from '@/app/api/auth/[...nextauth]/auth';
+import { authConfig } from '@/app/lib/auth';
 
 export default async function ProfileForm() {
   const session = await getServerSession(authConfig);

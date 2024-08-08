@@ -1,13 +1,14 @@
 export default async function refreshAccessToken(token) {
     try {
       const url = 'https://auth.atlassian.com/oauth/token';
-  
+     
       const data = {
         grant_type: 'refresh_token',
         client_id: process.env.CLIENT_ID,
         client_secret: process.env.CLIENT_SECRET,
         refresh_token: token.refreshToken,
       };
+
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -18,6 +19,8 @@ export default async function refreshAccessToken(token) {
       });
   
       const refreshedTokens = await response.json();
+
+      console.log(refreshedTokens);
   
       if (!response.ok) {
         throw refreshedTokens;

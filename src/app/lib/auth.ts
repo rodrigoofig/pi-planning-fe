@@ -37,9 +37,9 @@ export const authConfig: NextAuthOptions = {
         return params.token;
       }
 
-      const data = await refreshAccessToken(params.token);
+      params.token = await refreshAccessToken(params.token);
 
-      return data;
+      return params.token;
     },
     async session({ session, token }) {
       const newSession = {
@@ -47,7 +47,7 @@ export const authConfig: NextAuthOptions = {
         accessToken: token.accessToken,
       };
 
-      console.log("Session Token -> ", newSession.accessToken)
+      //console.log("Session Token -> ", newSession.accessToken)
 
       return newSession;
     },

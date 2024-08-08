@@ -1,4 +1,4 @@
-import { authConfig } from '@/app/api/auth/[...nextauth]/auth';
+import { authConfig } from '@/app/lib/auth';
 import { getServerSession } from 'next-auth';
 import ChatsComponent from '../component/chats';
 

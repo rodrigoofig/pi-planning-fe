@@ -1,6 +1,6 @@
 /** @format */
 
-import { authConfig } from '@/app/api/auth/[...nextauth]/auth';
+import { authConfig } from '@/app/lib/auth';
 import NextAuth from 'next-auth/next';
 
 const handler = NextAuth(authConfig);

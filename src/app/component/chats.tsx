@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import ChatContent from "./chatContent";
 import { FaPlus } from "react-icons/fa6";
-import { queryClient } from "../api/auth/[...nextauth]/queryClient";
+import { queryClient } from "../api/queryClient";
 
 
 export default function ChatsComponent({ session }) {
