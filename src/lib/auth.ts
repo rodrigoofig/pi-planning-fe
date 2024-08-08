@@ -20,6 +20,9 @@ export const authConfig: NextAuthOptions = {
   },
   callbacks: {
     async redirect({ url, baseUrl }) {
+      if (url.startsWith(baseUrl)) {
+        return baseUrl + '/chat';
+      }
       return baseUrl;
     },
     async jwt(params) {
@@ -27,12 +30,11 @@ export const authConfig: NextAuthOptions = {
         params.token.accessToken = params.account.access_token;
         params.token.id = params.user.id;
       }
-    
+
       return params.token;
     },
     async session({ session, token }) {
-
-      console.log()
+      console.log();
       const newSession = {
         ...session,
         accessToken: token.accessToken,
