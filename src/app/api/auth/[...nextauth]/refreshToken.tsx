@@ -19,18 +19,17 @@ export default async function refreshAccessToken(token) {
       });
   
       const refreshedTokens = await response.json();
-
-      console.log(refreshedTokens);
   
       if (!response.ok) {
         throw refreshedTokens;
       }
+
+      console.log("RESPONSE -> ", refreshedTokens);
   
       return {
-        ...token,
         accessToken: refreshedTokens.access_token,
-        accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
         refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
+        accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
       };
     } catch (error) {
       console.log(error);

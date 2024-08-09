@@ -24,11 +24,14 @@ export const authConfig: NextAuthOptions = {
       return baseUrl;
     },
     async jwt(params) {
+      console.log('TOKEN CREDENTIALS INITIAL -> ', params.token);
+
       if (params.account) {
-        params.token.id = params.user.id;
-        params.token.accessToken = params.account.access_token;
-        params.token.refreshToken = params.account.refresh_token;
-        params.token.accessTokenExpires = params.account.expires_at * 1000;
+        return {
+          accessToken: params.account.access_token,
+          refreshToken: params.account.refresh_token,
+          accessTokenExpires: Date.now() + params.account.expires_in * 1000,
+        };
       }
 
       const currentDate = Date.now();
@@ -37,9 +40,7 @@ export const authConfig: NextAuthOptions = {
         return params.token;
       }
 
-      params.token = await refreshAccessToken(params.token);
-
-      return params.token;
+      return await refreshAccessToken(params.token);
     },
     async session({ session, token }) {
       const newSession = {
