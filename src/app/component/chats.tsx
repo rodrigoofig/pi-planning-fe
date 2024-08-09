@@ -19,9 +19,9 @@ export default function ChatsComponent({ session }) {
             }).then((res) => res.json()) 
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey:['repoData']})
+            queryClient.invalidateQueries({queryKey:['chats']})
         }
-      })
+    })
       
   
     const headers = {
@@ -30,13 +30,12 @@ export default function ChatsComponent({ session }) {
     };
 
     const { isPending, error, data } = useQuery({
-        queryKey: ["repoData"],
+        queryKey: ["chats"],
         queryFn: () =>
             fetch(`${process.env.NEXT_PUBLIC_CHAT_URL}/chats`, {
                 headers
             }).then((res) => res.json()),
     });
-
 
     if (isPending) {
         return <div>Loading...</div>;
@@ -56,16 +55,16 @@ export default function ChatsComponent({ session }) {
                 <ul className="w-full flex flex-col-reverse">
                     {data.map((chatItem) => (
                         <li
-                            onClick={() => setChat(chatItem)}
-                            key={chatItem.name}
-                            className="p-3 m-1 border-b border-gray-300 shadow cursor-pointer text-center hover:bg-gray-50 dark:hover:bg-gray-700 dark:bg-gray-800 dark:text-white"
+                            onClick={() => {setChat(chatItem)}}
+                            key={chatItem.id}
+                            className="p-3 m-1 border-b border-gray-300 shadow cursor-pointer text-center hover:bg-gray-50 dark:hover:bg-gray-700 active:bg-gray-700 dark:bg-gray-800 dark:text-white"
                         >
                             <h1 className="justify-start leading-tight text-ellipsis whitespace-normal overflow-hidden">{chatItem.name}</h1>
                         </li>
                     ))}
                 </ul>
             </div>
-            <ChatContent chat={chat} />
+            {chat && <ChatContent chat={chat} session={session} />}
         </div>
     );
 }
