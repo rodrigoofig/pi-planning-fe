@@ -52,7 +52,7 @@ export default function ChatsComponent({ session }) {
                     <h1 className="p-3 text-lg font-bold text-gray-900 dark:text-white">Chats</h1>
                     <button onClick={()=>{mutate()}} className="mr-5 px-2 py-2 text-white bg-gray-700 hover:bg-gray-500 rounded-full shadow-2xl"><FaPlus/></button>
                 </div>
-                <ul className="w-full flex flex-col-reverse">
+                <ul className="w-full flex flex-col-reverse overflow-y-auto">
                     {data.map((chatItem) => (
                         <li
                             onClick={() => {setChat(chatItem)}}
